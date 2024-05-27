@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FollowerController;
 use App\Http\Controllers\AuthController;
 
 /*
@@ -26,6 +27,13 @@ Route::prefix('user')->group(function () {
     Route::post('/', [UserController::class, 'store']);
     Route::put('/{id}', [UserController::class, 'update']);
     Route::delete('/{id}', [UserController::class, 'delete']);
+});
+
+Route::prefix('follower')->group(function () {
+    Route::get('/', [FollowerController::class, 'getAll']);
+    Route::get('/{id}', [FollowerController::class, 'getOneUserFollowing']);
+    Route::post('/', [FollowerController::class, 'store']);
+    Route::delete('/{id}', [FollowerController::class, 'delete']);
 });
 
 Route::prefix('auth')->group(function () {
