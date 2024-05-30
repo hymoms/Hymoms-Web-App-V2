@@ -42,9 +42,6 @@ class UserController extends Controller
         if($exist) return response()->json(['message' => 'this email already exist'], 422);
         $create = User::create($data);
 
-        if(gettype($data) == 'integer'){
-            return response()->json(['message' => 'Email already exist'], 409);
-        }
         return response()->json(['message' => 'User created', 'data' => $data]);
     }
 
