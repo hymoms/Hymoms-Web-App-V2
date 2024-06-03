@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FollowerController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,11 +30,31 @@ Route::prefix('user')->group(function () {
     Route::delete('/{id}', [UserController::class, 'delete']);
 });
 
-Route::prefix('follower')->group(function () {
+Route::middleware('auth:sanctum')->prefix('follower')->group(function () {
     Route::get('/', [FollowerController::class, 'getAll']);
     Route::get('/{id}', [FollowerController::class, 'getOneUserFollowing']);
     Route::post('/', [FollowerController::class, 'store']);
     Route::delete('/{id}', [FollowerController::class, 'delete']);
+});
+
+Route::middleware('auth:sanctum')->prefix('content')->group(function () {
+    // post route
+    Route::get('/post', [PostController::class, 'getAllPost']);
+    Route::get('/post{id}', [PostController::class, 'getOnePost']);
+    Route::post('/post', [PostController::class, 'createPost']);
+    Route::put('/post{id}', [PostController::class, 'updatePost']);
+    Route::delete('/post{id}', [PostController::class, 'deletePost']);
+    
+    // like route
+    Route::post('/like', [PostController::class, 'addLike']);
+    Route::delete('/like/{id}', [PostController::class, 'deleteLike']);
+    
+    // comment route
+    Route::post('/comment', [PostController::class, 'addComment']);
+    Route::put('/comment/{id}', [PostController::class, 'updateComment']);
+    Route::delete('/comment/{id}', [PostController::class, 'deleteComment']);
+
+
 });
 
 Route::prefix('auth')->group(function () {

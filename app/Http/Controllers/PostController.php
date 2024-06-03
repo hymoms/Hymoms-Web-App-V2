@@ -2,21 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
+
 
 
 class PostController extends Controller
 {
-    public function createPost() {
+    public function createPost(Request $request) {
         $data = $request->all();
         // $data = $request->all();
 
+        $data['user_id'] = $request->user()->id;
         $validator = Validator::make($data, [
             'user_id' => 'required',
             'title' => 'required',
             'content' => 'required',
         ]);
+
 
         if ($validator->fails()) {
             return response()->json([
